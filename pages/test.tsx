@@ -4,6 +4,9 @@ import * as Typo from '@/components/Typography';
 import Toggle from '@/components/Toggle';
 import { GrassArea } from '@/components/Molecules/GrassArea';
 import { css } from '@emotion/react';
+import ToastMessage from '@/components/ToastMessage';
+import useToast from '@/hooks/useToast';
+import { FONT_COLOR } from '@/constants/color';
 import { TimeLine, TimeLineContentProps } from '@/components/TimeLine';
 import { ChangeEvent, useState, useCallback, useEffect } from 'react';
 import { TextField } from '@/components/TextField';
@@ -23,7 +26,16 @@ import { CertifiedBlog } from '@/components/CertifiedBlog';
 
 const Test: NextPage = () => {
   // !! Color관련 ThemeProvider 적용할건지 여부
-
+  const { isOpen, text, showToast } = useToast();
+  const handleClick = () => {
+    // showToast ReactNode
+    showToast(
+      <>
+        <a>SVG</a>
+        <Typo.H1 color={FONT_COLOR.GRAY_1}> 저장되었습니다</Typo.H1>
+      </>,
+    );
+  };
   return (
     <div
       css={css`
@@ -67,6 +79,12 @@ const Test: NextPage = () => {
       >
         123
       </div>
+      <br />
+      <Button types='md' onClick={handleClick}>
+        toastOpen
+      </Button>
+      {isOpen && <ToastMessage isOpen={isOpen}>{text}</ToastMessage>}
+
       <CardComponent></CardComponent>
       <ButtonComponent></ButtonComponent>
       <BoxLayoutTest></BoxLayoutTest>
