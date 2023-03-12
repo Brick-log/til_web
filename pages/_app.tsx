@@ -1,14 +1,20 @@
-import '../styles/globals.tsx';
-import type { AppProps } from 'next/app';
 import GlobalStyles from '@/styles/globals';
+import { useState } from 'react';
+import type { AppProps } from 'next/app';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import CommonLayout from '@/components/common/CommonLayout';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // TODO Recoil install 후 RecoilRoot로 감싸주기
+  const [queryClient] = useState(() => new QueryClient());
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <GlobalStyles />
-      <Component {...pageProps} />;
-    </>
+      <CommonLayout>
+        <Component {...pageProps} />
+      </CommonLayout>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
 
